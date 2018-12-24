@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>  
+<head>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+</head>  
+<body>    
+   
+   
+<script language=javascript> 
+ 
+$(document).ready(function(){
+    autoclick();
+    $("#bt").click(function(){
+    $(".aa").slideToggle("slow");						
+})
+function autoclick(){
+    $("#bt").click();  //让系统自动执行单击事件
+    $autoFun = setTimeout(autoclick,50); //设置3秒钟之后再次执行函数
+}
+})
+</script>    
+  
+<p class="aa">My name is Donald</p>
+<button id="bt" type="button">button</button>
+<a href="./index.html">index</a>    
+</body>    
+</html> 

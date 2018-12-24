@@ -1,0 +1,445 @@
+<!DOCTYPE>
+<html xmlns="http://www.w3.org/1999/xhtml" lang = "zh-CN">
+
+<head>
+    <title>graduation project</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
+    <!-- CSS Libs -->
+    <!--<link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" type="text/css" href="../libshtml/css/bootstrap.min.css">
+    <link href="https://cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <!--<link rel="stylesheet" type="text/css" href="../lib/css/font-awesome.min.css">-->
+    <!--<link href="https://cdn.bootcss.com/animate.css/2.0/animate.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" type="text/css" href="../libshtml/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="../libshtml/css/bootstrap-switch.min.css">
+    <link rel="stylesheet" type="text/css" href="../libshtml/css/checkbox3.min.css">
+    <link rel="stylesheet" type="text/css" href="../libshtml/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../libshtml/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../libshtml/css/select2.min.css">
+    <!-- CSS App -->
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/loarding.css">
+    <link rel="stylesheet" type="text/css" href="../css/switch.css">
+    <link rel="stylesheet" type="text/css" href="../css/themes/flat-blue.css">
+
+<script>
+//window.nodeRequire = require;
+//delete window.require;
+//delete window.exports;
+//delete window.module;
+</script>
+
+            <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+            <!--<script type="text/javascript" src="../lib/js/jquery.min.js"></script>-->
+            <script type="text/javascript" src="../libshtml/js/bootstrap.min.js"></script>
+            <script type="text/javascript" src="../libshtml/js/Chart.min.js"></script>
+            <script type="text/javascript" src="../libshtml/js/bootstrap-switch.min.js"></script>
+            <script type="text/javascript" src="../libshtml/js/jquery.matchHeight-min.js"></script>
+            <script type="text/javascript" src="../libshtml/js/jquery.dataTables.min.js"></script>
+            <script type="text/javascript" src="../libshtml/js/dataTables.bootstrap.min.js"></script>
+            <script type="text/javascript" src="../libshtml/js/select2.full.min.js"></script>
+            <script type="text/javascript" src="../libshtml/js/ace/ace.js"></script>
+            <script type="text/javascript" src="../libshtml/js/ace/mode-html.js"></script>
+            <script type="text/javascript" src="../libshtml/js/ace/theme-github.js"></script>
+            <!-- Javascript -->
+            <script type="text/javascript" src="../js/app.js"></script>
+            <script type="text/javascript" src="../js/index.js"></script>
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////     -->
+
+
+
+
+<script src="https://img.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+<script src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+<script src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+<script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+<script src="../test1.js"></script>
+<!--<style>
+
+    body{
+
+      padding: 0;
+
+      margin: 0;
+
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+      font-weight: 0;
+
+      text-rendering: optimizelegibility;
+
+    }
+
+    p{font-size: 0px; line-height: 0px}
+
+    div.demo{text-align: center; width: 0px; float: right}
+
+    div.demo > p{font-size: 20px}
+
+</style>-->
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery.knob.js"></script>
+
+<script>
+$(function($) {
+    $(".knob").knob({
+        change : function (value) {
+
+        },
+        release : function (value) {
+            console.log("release : " + value);
+        },
+        cancel : function () {
+            console.log("cancel : ", this);
+        },
+        draw : function () {
+            if(this.$.data('skin') == 'tron') {
+                var a = this.angle(this.cv)  // Angle
+                , sa = this.startAngle          // Previous start angle
+                , sat = this.startAngle         // Start angle
+                , ea                            // Previous end angle
+                , eat = sat + a
+                , r = 1;
+                this.g.lineWidth = this.lineWidth;
+                this.o.cursor
+                && (sat = eat - 0.3)
+                && (eat = eat + 0.3);
+                if (this.o.displayPrevious) {
+                    ea = this.startAngle + this.angle(this.v);
+                    this.o.cursor
+                    && (sa = ea - 0.3)
+                    && (ea = ea + 0.3);
+                    this.g.beginPath();
+                    this.g.strokeStyle = this.pColor;
+                    this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
+                    this.g.stroke();
+                    }
+                    this.g.beginPath();
+                    this.g.strokeStyle = r ? this.o.fgColor : this.fgColor ;
+                    this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);
+                    this.g.stroke();
+                    this.g.lineWidth = 2;
+                    this.g.beginPath();
+                    this.g.strokeStyle = this.o.fgColor;
+                    this.g.arc( this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+                    this.g.stroke();
+                    return false;
+                    }
+                    }// Example of infinite knob, iPod click wheel
+                    }); 
+            var v, up=0,down=0,i=0
+            ,$idir = $("div.idir")
+            ,$ival = $("div.ival")
+            ,incr = function() { i++; $idir.show().html("+").fadeOut(); $ival.html(i); }
+            ,decr = function() { i--; $idir.show().html("-").fadeOut(); $ival.html(i); };
+         $("input.infinite").knob({
+             min : 0
+             , max : 20
+             , stopper : false
+             , change : function () {
+                 if(v > this.cv){
+                     if(up){
+                         decr();
+                         up=0;
+                         }else{up=1;down=0;}
+                         } else {
+                             if(v < this.cv){
+                                 if(down){
+                                     incr();
+                                     down=0;
+                                     }else{down=1;up=0;}
+                                     }
+                                     }
+                                     v = this.cv;
+                                     }
+                                     });
+                                     });
+    </script>
+
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////     -->
+
+<!-- <script src="../cloud.js"></script>-->
+<!--<style>
+    body {
+        /* set margin to 0 and overflow to hidden, to go fullscreen */
+        margin: 0;
+        overflow: hidden;
+    }
+</style>-->
+
+
+</head>
+
+<body class="flat-blue">
+    <div class="app-container">
+        <div class="row content-container">
+            <nav class="navbar navbar-default navbar-fixed-top navbar-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                       <!-- <button type="button" class="navbar-expand-toggle">
+                            <i class="fa fa-bars icon"></i>
+                        </button>
+                        <ol class="breadcrumb navbar-breadcrumb">
+                            <li class="active">INDEX</li>
+                        </ol>
+                        <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
+                            <i class="fa fa-th icon"></i>
+                        </button>-->
+                        <div style="left:600px;">
+                        <input class="knob second" data-min="0" data-max="100" data-width="120" data-displayPrevious=false data-bgColor="#333" data-fgColor="#C0ffff" data-skin="tron"  data-cursor=false data-thickness=".1" >
+                        <input class="knob minute" data-min="-1000" data-max="360" data-width="120" data-displayPrevious=false data-bgColor="#333" data-fgColor="#C0ffff" data-skin="tron" data-cursor=true data-thickness=".2" >    
+                    </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="side-menu sidebar-inverse">
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="side-menu-container">
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="#">
+                                <div class="icon fa fa-paper-plane"></div>
+                                <div class="title">navigation</div>
+                            </a>
+                            <button type="button" class="navbar-expand-toggle pull-right visible-xs">
+                                <i class="fa fa-times icon"></i>
+                            </button>
+                        </div>
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <a href="index.html">
+                                    <span class="icon fa fa-tachometer"></span><span class="title">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-element">
+                                    <span class="icon fa fa-desktop"></span><span class="title">Mission</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-element" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li><a href="ui-kits/theming.html">Global Map</a>
+                                            </li>
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-table">
+                                    <span class="icon fa fa-table"></span><span class="title">SLAM</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-table" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li><a href="table/table.html">Mapping</a>
+                                            </li>
+                                            <li><a href="table/datatable.html">Localization</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-form">
+                                    <span class="icon fa fa-file-text-o"></span><span class="title">Vision</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-form" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li><a href="form/ui-kits.html">Camera0</a>
+                                            </li>
+                                            <li><a href="form/ui-kits.html">Camera1</a>
+                                            </li>
+                                            <li><a href="form/ui-kits.html">StereoCamera</a>
+                                            </li>
+                                            <li><a href="form/ui-kits.html">360 Camera</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <!-- Dropdown-->
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#component-example">
+                                    <span class="icon fa fa-bomb"></span><span class="title">LiDAR</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="component-example" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li><a href="components/pricing-table.html">SICK</a>
+                                            </li>
+                                            <li><a href="components/chartjs.html">Ibeo</a>
+                                            </li>
+                                            <li><a href="components/pricing-table.html">PUCK</a>
+                                            </li>
+                                            <li><a href="components/chartjs.html">HDL-32E</a>
+                                            </li>
+                                             <li><a href="components/chartjs.html">HDL-64E</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- Dropdown-->
+                            <li>
+                                <a href="license.html">
+                                    <span class="icon fa fa-cog"></span><span class="title">RADAR</span>
+                                </a>
+                            </li>
+                            <li>
+
+                                <a href="license.html">
+                                    <span class="icon fa fa-thumbs-o-up"></span><span class="title">Sonic</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="license.html">
+                                    <span class="icon fa fa-eye"></span><span class="title">Decision</span>
+                                </a>
+                            </li>
+
+                            <!-- Dropdown-->
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-icon">
+                                    <span class="icon fa fa-archive"></span><span class="title">Planning</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-icon" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li><a href="curvetest1.html">LKAS</a>
+                                            </li>
+                                            <li><a href="../demo/demo6b.html">ACC</a>
+                                            </li>
+                                            <li><a href="../demo/demo6b.html">Auto Lane Changing</a>
+                                            </li>
+                                            <li><a href="../demo/demo6b.html">Overtaking</a>
+                                            </li>
+                                            <li><a href="../demo/demo6b.html">Obstacle Avoidance</a>
+                                            </li>
+                                            <li><a href="slider.html">Crossing Road</a>
+                                            </li>
+                                            <li><a href="slider.html">Parking</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-example">
+                                    <span class="icon fa fa-cab"></span><span class="title">Control</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-example" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li><a href="curvetest1.html">PID</a>
+                                            </li>
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </nav>
+            </div>
+            <div class="copyrights">TJU <a href="http://www.cssmoban.com/" >platform</a></div>
+            <!-- Main Content -->
+            <a>
+            <div class="container-fluid">
+                <div class="side-body padding-top">
+                    <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       <!--<a href="#">
+                            <div class="card purple summary-inline dark":hover>
+                                <div class="card-body">-->
+                                        <!--<div class="demo" style="background-color:#fff; color:#FFF;">-->
+                                            
+                                       <!-- </div>-->
+                                   <!-- </div>-->
+                                   <!-- <div class="clear-both"></div>-->
+                               <!-- </div>
+                            </a>-->
+                           
+                         
+                           
+                          <!--  <input class="knob minute" data-min="-1000" data-max="360" data-width="120" data-displayPrevious=false data-bgColor="#333" data-fgColor="#C0ffff" data-skin="tron" data-cursor=true data-thickness=".2" >-->
+                           
+                        </div>
+                        <div class="clear-both"></div>
+                        </div>
+                           <!-- <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <a href="#">
+                                    <div class="card purple summary-inline">
+                                        <div class="card-body">
+                                            
+                                                
+                                            </div>
+                                            <div class="clear-both"></div>
+                                        </div>
+                                    </a>
+                                    </div>-->
+                        
+                    </div>
+                    
+                    <div class="col-sm-4 col-xs-12">
+                        <div class="row">
+                                
+                                <div class="card card-success">
+                                <div class="card-body padding-top">
+                                <div class="card-header">
+                                <div class="card-title">
+                                    <div class="title"><i class="fa fa-comments-o"></i> Modules</div>
+                                      
+                                </div>
+                                
+                                <div class="clear-both"></div>
+                            </div>
+
+<!--<1 ////////////////////////////////  ///////////////////////////////////////////////////////////////////////////  -->                         
+    <div class="col-sm-4 col-xs-12">
+            
+            </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    </div> 
+                    
+                </div>
+                </div>
+            </a>  
+                       
+                        
+                   
+                </div>
+           
+       
+        
+
+        
+
+        <footer class="app-footer">
+            <div class="wrapper">
+                <span class="pull-right">2.1 <a href="#"><i class="fa fa-long-arrow-up"></i></a></span> © 2018  <a href="http://www.cssmoban.com/" target="_blank" title="TJU">TJU graduation project</a>  
+            </div>
+        </footer>
+       
+            <!-- Javascript Libs -->
+        </div>        
+</body>
+
+</html>

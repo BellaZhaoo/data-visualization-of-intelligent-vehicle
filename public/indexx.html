@@ -1,0 +1,583 @@
+<!DOCTYPE >
+<html xmlns="http://www.w3.org/1999/xhtml" lang = "zh-CN">
+
+<head>
+    <title>graduation project</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
+    <!-- CSS Libs -->
+    <!--<link rel="stylesheet" type="text/css" href="../lib/css/bootstrap.min.css">-->
+    <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <!--<link rel="stylesheet" type="text/css" href="../lib/css/font-awesome.min.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="../lib/css/animate.min.css">-->
+    <link href="https://cdn.bootcss.com/animate.css/3.1.0/animate.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../libshtml/css/bootstrap-switch.min.css">
+    <link rel="stylesheet" type="text/css" href="../libshtml/css/checkbox3.min.css">
+    <link rel="stylesheet" type="text/css" href="../libshtml/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../libshtml/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../libshtml/css/select2.min.css">
+    <!-- CSS App -->
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/loarding.css">
+    <link rel="stylesheet" type="text/css" href="../css/switch.css">
+    <link rel="stylesheet" type="text/css" href="../css/themes/flat-blue.css">
+
+    <style>
+    .button {
+  display: inline-block;
+  border-radius: 6px;
+  background-color: #353D47;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 14px;
+  padding: 15px;
+  width: 100px;
+  height: 45px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '»';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+</style>
+
+<script>
+function myFunction(){
+    document.getElementById("demo").innerHTML="Hello World";
+}
+</script>
+
+<script>
+//window.nodeRequire = require;
+//delete window.require;
+//delete window.exports;
+//delete window.module;
+</script>
+            <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+            <!--<script type="text/javascript" src="../lib/js/jquery.min.js"></script>-->
+            <script type="text/javascript" src="../libshtml/js/bootstrap.min.js"></script>
+            <script type="text/javascript" src="../libshtml/js/Chart.min.js"></script>
+            <script type="text/javascript" src="../libshtml/js/bootstrap-switch.min.js"></script>
+            <script type="text/javascript" src="../libshtml/js/jquery.matchHeight-min.js"></script>
+            <script type="text/javascript" src="../libshtml/js/jquery.dataTables.min.js"></script>
+            <script type="text/javascript" src="../libshtml/js/dataTables.bootstrap.min.js"></script>
+            <script type="text/javascript" src="../libshtml/js/select2.full.min.js"></script>
+            <script type="text/javascript" src="../libshtml/js/ace/ace.js"></script>
+            <script type="text/javascript" src="../libshtml/js/ace/mode-html.js"></script>
+            <script type="text/javascript" src="../libshtml/js/ace/theme-github.js"></script>
+            <!-- Javascript -->
+            <script type="text/javascript" src="../js/app.js"></script>
+            <script type="text/javascript" src="../js/index.js"></script>
+</head>
+
+<body class="flat-blue">
+    <div class="app-container">
+        <div class="row content-container">
+            <nav class="navbar navbar-default navbar-fixed-top navbar-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-expand-toggle">
+                            <i class="fa fa-bars icon"></i>
+                        </button>
+                        <ol class="breadcrumb navbar-breadcrumb">
+                            <li class="active">INDEX</li>
+                        </ol>
+                        <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
+                            <i class="fa fa-th icon"></i>
+                        </button>
+                    </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
+                            <i class="fa fa-times icon"></i>
+                        </button>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-comments-o"></i></a>
+                            <ul class="dropdown-menu animated fadeInDown">
+                                <li class="title">
+                                    <a href="slider.html">slider</a><span class="badge pull-right">0</span>
+                                </li>
+                                <li class="message">
+                                    <a href="slider.html">slider</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown danger">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-star-half-o"></i> 4</a>
+                            <ul class="dropdown-menu danger  animated fadeInDown">
+                                <li class="title">
+                                    <a href="slider.html">slider</a> <span class="badge pull-right">4</span>
+                                </li>
+                                <li>
+                                    <ul class="list-group notifications">
+                                        <a href="#">
+                                            <li class="list-group-item">
+                                                <span class="badge">1</span> <i class="fa fa-exclamation-circle icon"></i> <a href="slider.html">slider</a>
+                                            </li>
+                                        </a>
+                                        <a href="#">
+                                            <li class="list-group-item">
+                                                <span class="badge success">1</span> <i class="fa fa-check icon"></i> <a href="slider.html">slider</a>
+                                            </li>
+                                        </a>
+                                        <a href="#">
+                                            <li class="list-group-item">
+                                                <span class="badge danger">2</span> <i class="fa fa-comments icon"></i> <a href="slider.html">slider</a>
+                                            </li>
+                                        </a>
+                                        <a href="#">
+                                            <li class="list-group-item message">
+                                                <a href="slider.html">slider</a>
+                                            </li>
+                                        </a>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </nav>
+            <div class="side-menu sidebar-inverse">
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="side-menu-container">
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="#">
+                                <div class="icon fa fa-paper-plane"></div>
+                                <div class="title">导航</div>
+                            </a>
+                            <button type="button" class="navbar-expand-toggle pull-right visible-xs">
+                                <i class="fa fa-times icon"></i>
+                            </button>
+                        </div>
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <a href="index.html">
+                                    <span class="icon fa fa-tachometer"></span><span class="title">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-element">
+                                    <span class="icon fa fa-desktop"></span><span class="title">Mission</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-element" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li><a href="ui-kits/theming.html">Global Map</a>
+                                            </li>
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-table">
+                                    <span class="icon fa fa-table"></span><span class="title">SLAM</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-table" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li><a href="table/table.html">Mapping</a>
+                                            </li>
+                                            <li><a href="table/datatable.html">Localization</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-form">
+                                    <span class="icon fa fa-file-text-o"></span><span class="title">Vision</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-form" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li><a href="form/ui-kits.html">Camera0</a>
+                                            </li>
+                                            <li><a href="form/ui-kits.html">Camera1</a>
+                                            </li>
+                                            <li><a href="form/ui-kits.html">StereoCamera</a>
+                                            </li>
+                                            <li><a href="form/ui-kits.html">360 Camera</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <!-- Dropdown-->
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#component-example">
+                                    <span class="icon fa fa-bomb"></span><span class="title">LiDAR</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="component-example" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li><a href="components/pricing-table.html">SICK</a>
+                                            </li>
+                                            <li><a href="components/chartjs.html">Ibeo</a>
+                                            </li>
+                                            <li><a href="components/pricing-table.html">PUCK</a>
+                                            </li>
+                                            <li><a href="components/chartjs.html">HDL-32E</a>
+                                            </li>
+                                             <li><a href="components/chartjs.html">HDL-64E</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- Dropdown-->
+                            <li>
+                                <a href="license.html">
+                                    <span class="icon fa fa-cog"></span><span class="title">RADAR</span>
+                                </a>
+                            </li>
+                            <li>
+
+                                <a href="license.html">
+                                    <span class="icon fa fa-thumbs-o-up"></span><span class="title">Sonic</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="license.html">
+                                    <span class="icon fa fa-eye"></span><span class="title">Decision</span>
+                                </a>
+                            </li>
+
+                            <!-- Dropdown-->
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-icon">
+                                    <span class="icon fa fa-archive"></span><span class="title">Planning</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-icon" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li><a href="curvetest1.html">LKAS</a>
+                                            </li>
+                                            <li><a href="../demo/demo6b.html">ACC</a>
+                                            </li>
+                                            <li><a href="../demo/demo6b.html">Auto Lane Changing</a>
+                                            </li>
+                                            <li><a href="../demo/demo6b.html">Overtaking</a>
+                                            </li>
+                                            <li><a href="../demo/demo6b.html">Obstacle Avoidance</a>
+                                            </li>
+                                            <li><a href="slider.html">Crossing Road</a>
+                                            </li>
+                                            <li><a href="slider.html">Parking</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-example">
+                                    <span class="icon fa fa-cab"></span><span class="title">Control</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-example" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li><a href="curvetest1.html">PID</a>
+                                            </li>
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </nav>
+            </div>
+            <div class="copyrights">TJU <a href="http://www.cssmoban.com/" >模拟平台</a></div>
+            <!-- Main Content -->
+            <div class="container-fluid">
+                <div class="side-body padding-top">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <a href="#">
+                                <div class="card purple summary-inline">
+                                    <div class="card-body">
+                                        <i class="icon fa fa-tags fa-4x"></i>
+                                        <div class="content">
+                                            <div class="title">Quick Start</div>
+                                            
+                                        </div>
+                                        <div class="clear-both"></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <a href="#">
+                                <div class="card grey summary-inline">
+                                    <div class="card-body">
+                                        <i class="icon fa fa-tags fa-4x"></i>
+                                        <div class="content">
+                                            <div class="title">Debug</div>
+                                            
+                                        </div>
+                                        <div class="clear-both"></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <a href="#">
+                                <div class="card grey summary-inline">
+                                    <div class="card-body">
+                                        <i class="icon fa fa-tags fa-4x"></i>
+                                        <div class="content">
+                                            <div class="title">Hardware</div>
+                                            
+                                        </div>
+                                        <div class="clear-both"></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row  no-margin-bottom">
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="card card-success">
+                                    <div class="card-body half-padding">
+                                    <div class="card-header">
+                                    <div class="card-title">
+                                        <div class="title"><i class="fa fa-comments-o"></i> Before recording,you need to setup the system.</div>
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
+                                   
+                                            <h4 class="float-left no-margin font-weight-300" style="margin-top:50px;">Quick Record:</h4>
+                    
+                                            <div class="clear-both"></div>
+
+                                        </div>
+                                        <p>
+                                        <button class="button" style="vertical-align:middle;margin-right:25px;margin-left:25px;"><span>Setup </span></button>
+                                        <button class="button" style="vertical-align:middle;margin-right:25px;"><span>Start </span></button>
+                                        <button class="button" style="vertical-align:middle"><span>Stop </span></button>
+                                        </p>
+
+                                        <div class="card-body half-padding">
+                                            <h4 class="float-left no-margin font-weight-300" style="margin-top:50px;">Quick Play:</h4>
+                    
+                                            <div class="clear-both"></div>
+
+                                        </div>
+                                        <p>
+                                        <button class="button" style="vertical-align:middle;margin-right:25px;margin-bottom: 50px;margin-left:25px;"><span>Setup </span></button>
+                                        <button class="button" style="vertical-align:middle;margin-right:25px;margin-bottom: 50px;"><span>Start </span></button>
+                                        <button class="button" style="vertical-align:middle;margin-bottom: 50px;"><span>Stop </span></button>
+                                        </p>
+
+
+                                        
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                      
+                        </div>
+
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="row">
+                                    <div class="card card-success">
+                                    <div class="card-body half-padding">
+                                    <div class="card-header">
+                                    <div class="card-title">
+                                        <div class="title"><i class="fa fa-comments-o"></i> Modules</div>
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
+
+                                <div class="col-sm-2 col-xs-12">
+                                <h4 class="float-left no-margin font-weight-100" style="margin-top:30px;">GPSDriver</h4>
+                                <h4 class="float-left no-margin font-weight-100" style="margin-top:43px;">Control</h4>
+                                <h4 class="float-left no-margin font-weight-100" style="margin-top:43px;">CANBus</h4>
+                                <h4 class="float-left no-margin font-weight-100" style="margin-top:43px;">Locallzation</h4>
+                                <h4 class="float-left no-margin font-weight-100" style="margin-top:43px;">Dreamview</h4>
+                                <h4 class="float-left no-margin font-weight-100" style="margin-top:43px;">DataRecord</h4>
+                                </div>
+                                <div class="col-sm-2 col-xs-12">
+                                 <p>
+                                 <div class="container" >
+                                    <div class="bg_con" >
+                                    <input id="checked_1" type="checkbox" class="switch"  /> 
+                                    <label for="checked_1"></label>
+                                    </div>
+                                    </div></p>
+                                    <p><div class="container">
+                                    <div class="bg_con">
+                                    <input id="checked_2" type="checkbox" class="switch"  /> 
+                                    <label for="checked_2"></label>
+                                    </div>
+                                    </div></p>
+                                    <p><div class="container">
+                                    <div class="bg_con">
+                                    <input id="checked_3" type="checkbox" class="switch"  /> 
+                                    <label for="checked_3"></label>
+                                    </div>
+                                    </div></p>
+                                    <p><div class="container">
+                                    <div class="bg_con">
+                                    <input id="checked_4" type="checkbox" class="switch"  /> 
+                                    <label for="checked_4"></label>
+                                    </div>
+                                    </div></p>
+                                    <p><div class="container">
+                                    <div class="bg_con">
+                                    <input id="checked_5" type="checkbox" class="switch"  /> 
+                                    <label for="checked_5"></label>
+                                    </div>
+                                    </div></p>
+                                    <p><div class="container">
+                                    <div class="bg_con">
+                                    <input id="checked_6" type="checkbox" class="switch"  /> 
+                                    <label for="checked_6"></label>
+                                    </div>
+                                    </div></p>
+                                    </div>        
+
+                                        </div> 
+                                        
+                                    </div>
+                        </div>
+</div>
+                                <div class="col-sm-4 col-xs-12">
+                            
+                      <div class="card card-success">
+                                    <div class="card-body half-padding">
+                                    <div class="card-header">
+                                    <div class="card-title">
+                                        <div class="title"><i class="fa fa-comments-o"></i>Hardware</div>
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
+                                   
+
+                                   <div class="col-sm-1 col-xs-12">   
+                                   <h4 class="float-left no-margin font-weight-100" style="margin-top:30px;">GPS</h4>
+                                   
+                                <h4 class="float-left no-margin font-weight-100" style="margin-top:43px;">CAN</h4>
+                                   </div>
+                                   <div class="col-sm-1 col-xs-12">   
+                                   
+                                   <div class="loadEffect" style="margin-top:35px;margin-left:15px;"> 
+                                   <span></span> 
+                                   <span></span> 
+                                   <span></span>
+                                   <span></span> 
+                                   <span></span> 
+                                   <span></span>
+                                   <span></span>
+                                   <span></span> 
+                                   </div>
+                                <div class="loadEffect" style="margin-top:55px;margin-left:15px;"> 
+                                   <span></span> 
+                                   <span></span> 
+                                   <span></span>
+                                   <span></span> 
+                                   <span></span> 
+                                   <span></span>
+                                   <span></span>
+                                   <span></span> 
+                                   </div>
+                                   </div>
+                                         <div class="col-sm-2 col-xs-12">   
+                                        <p>
+                                        <button class="button" style="vertical-align:middle;margin-left:230px;margin-top:17px;"><span>Check </span></button> 
+                                        </p>
+
+                                        
+                                        <p>
+                                        <button class="button" style="vertical-align:middle;margin-left:230px;margin-bottom: 50px;"><span>Check </span></button>
+                                        </p>
+                                        </div>
+
+
+                                        
+                                        
+                                    </div>
+                        </div> 
+                    </div>
+
+                            <div class="col-sm-4 col-xs-12">
+                            
+                      <div class="card card-success">
+                                    <div class="card-body half-padding">
+                                    <div class="card-header">
+                                    <div class="card-title">
+                                        <div class="title"><i class="fa fa-comments-o"></i>Hardware</div>
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
+                                   
+
+                                   <p>
+                                        <button class="button" style="vertical-align:middle;width:150px;margin-top:17px;margin-right:70px;margin-left:25px;"onclick="location='index.html'""><span>Reset All </span></button>
+            
+                                        <button class="button" style="margin-top:17px;width:150px;vertical-align:middle"onclick="location='../demo/demo6b.html'""><span >Dreamview</span></button>
+
+                                        </p>
+
+
+                                        
+                                        
+                                    </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        
+
+        <footer class="app-footer">
+            <div class="wrapper">
+                <span class="pull-right">2.1 <a href="#"><i class="fa fa-long-arrow-up"></i></a></span> © 2017  <a href="http://www.cssmoban.com/" target="_blank" title="TJU">TJU 暑期课程设计</a>  
+            </div>
+        </footer>
+       
+            <!-- Javascript Libs -->
+            
+</body>
+
+</html>

@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Example 06.04 - Extrude TubeGeometry</title>
+    
+    <script type="text/javascript" src="../libs/three.js"></script>
+    <script type="text/javascript" src="../libs/stats.js"></script>
+    <script type="text/javascript" src="../libs/dat.gui.js"></script>
+    <script src="../jscar/three.js"></script>
+    <script src="../jscar/three.min.js"></script>
+    <script src="../jscar/loaders/BinaryLoader.js"></script>
+    
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+   
+    
+    <script src="../test1.js"></script>
+    
+    <script src="./indexcloud.js"></script>
+    <script src="./readdd.js"></script>
+    <script src="./readd.js"></script>
+   <!-- <script src="../cloud.js"></script>-->
+  <!-- <script src="js/jquery-1.10.2.min.js"></script>-->
+   <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="js/jquery.knob.js"></script>
+        <script>
+                $(function($) {
+                    $(".knob").knob({
+                        change : function (value) {
+        
+                        },
+                        release : function (value) {
+                            console.log("release : " + value);
+                        },
+                        cancel : function () {
+                            console.log("cancel : ", this);
+                        },
+                        draw : function () {
+                            if(this.$.data('skin') == 'tron') {
+                                var a = this.angle(this.cv)  // Angle
+                                , sa = this.startAngle          // Previous start angle
+                                , sat = this.startAngle         // Start angle
+                                , ea                            // Previous end angle
+                                , eat = sat + a
+                                , r = 1;
+                                this.g.lineWidth = this.lineWidth;
+                                this.o.cursor
+                                && (sat = eat - 0.3)
+                                && (eat = eat + 0.3);
+                                if (this.o.displayPrevious) {
+                                    ea = this.startAngle + this.angle(this.v);
+                                    this.o.cursor
+                                    && (sa = ea - 0.3)
+                                    && (ea = ea + 0.3);
+                                    this.g.beginPath();
+                                    this.g.strokeStyle = this.pColor;
+                                    this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
+                                    this.g.stroke();
+                                    }
+                                    this.g.beginPath();
+                                    this.g.strokeStyle = r ? this.o.fgColor : this.fgColor ;
+                                    this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);
+                                    this.g.stroke();
+                                    this.g.lineWidth = 2;
+                                    this.g.beginPath();
+                                    this.g.strokeStyle = this.o.fgColor;
+                                    this.g.arc( this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+                                    this.g.stroke();
+                                    return false;
+                                    }
+                                    }// Example of infinite knob, iPod click wheel
+                                    }); 
+                            var v, up=0,down=0,i=0
+                            ,$idir = $("div.idir")
+                            ,$ival = $("div.ival")
+                            ,incr = function() { i++; $idir.show().html("+").fadeOut(); $ival.html(i); }
+                            ,decr = function() { i--; $idir.show().html("-").fadeOut(); $ival.html(i); };
+                         $("input.infinite").knob({
+                             min : 0
+                             , max : 20
+                             , stopper : false
+                             , change : function () {
+                                 if(v > this.cv){
+                                     if(up){
+                                         decr();
+                                         up=0;
+                                         }else{up=1;down=0;}
+                                         } else {
+                                             if(v < this.cv){
+                                                 if(down){
+                                                     incr();
+                                                     down=0;
+                                                     }else{down=1;up=0;}
+                                                     }
+                                                     }
+                                                     v = this.cv;
+                                                     }
+                                                     });
+                                                     });
+                    </script>
+                     <style>
+                            body {
+                                /* set margin to 0 and overflow to hidden, to go fullscreen */
+                                margin: 0;
+                                overflow: hidden;
+                            }
+                            div.demo{float: left; width: 180px;margin-left:150px;top:0px;}
+                            div.demo1{float: left; width: 180px;margin-left:100px;top:0px;}
+                            div.demo2{float: left; width: 180px;margin-left:100px;top:0px;}
+                        </style>
+<script type="text/javascript">
+    var CARS = {
+        "veyron": 	{
+            name:	"布加迪威龙",
+            url: 	"obj/veyron/VeyronNoUv_bin.js",
+            author: '布加迪威龙',
+            init_rotation: [0,90* ( Math.PI / 180 ), 0 ],
+            scale: 0.02,
+            init_material: 4,
+            body_materials: [ 2 ],
+            object: null,
+            buttons: null,
+            materials: null
+            }
+        };
+        // scale: 0.02,
+    var directionalLight, pointLight;
+    var m, mi;
+    var loader = new THREE.BinaryLoader( true );
+    var scene;
+     
+    // once everything is loaded, we run our Three.js stuff.
+    function init() {
+  
+        var stats = initStats();
+         
+        // create a scene, that will hold all our elements such as objects, cameras and lights.
+        scene = new THREE.Scene();
+
+        // create a camera, which defines where we're looking at.
+        var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        
+        var ambient = new THREE.AmbientLight( /*0x050505*/0xAAAAAA );
+				scene.add( ambient );
+        directionalLight = new THREE.DirectionalLight( 0xffffff, 2 );
+				directionalLight.position.set( 2, 1.2, 10 ).normalize();
+				scene.add( directionalLight );
+
+				directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
+				directionalLight.position.set( -2, 1.2, -10 ).normalize();
+                scene.add( directionalLight );
+        
+        var r = "textures/cube/Bridge2/";
+				var urls = [ r + "posx.jpg", r + "negx.jpg",
+							 r + "posy.jpg", r + "negy.jpg",
+							 r + "posz.jpg", r + "negz.jpg" ];
+
+				var textureCube = THREE.ImageUtils.loadTextureCube( urls );
+				textureCube.format = THREE.RGBFormat;
+				var shader = THREE.ShaderLib[ "cube" ];
+				shader.uniforms[ "tCube" ].value = textureCube;
+
+				var material = new THREE.ShaderMaterial( {
+
+					fragmentShader: shader.fragmentShader,
+					vertexShader: shader.vertexShader,
+					uniforms: shader.uniforms,
+					depthWrite: false,
+					side: THREE.BackSide
+
+				} );
+        // create a render and set the size
+        var webGLRenderer = new THREE.WebGLRenderer();
+        webGLRenderer.setClearColor(new THREE.Color(0x000000, 1.0));
+        webGLRenderer.setSize(window.innerWidth, window.innerHeight);
+        webGLRenderer.shadowMapEnabled = true;
+
+        // position and point the camera to the center of the scene
+        camera.position.x = -80;//-80
+        camera.position.y = 70;//70
+        camera.position.z = 0;
+        camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+        var cube;
+            function initObject1() {
+                var geometry = new THREE.CubeGeometry(1.7,1.7,3.5);
+                var material =  new THREE.MeshBasicMaterial({color: 0x6954eb, wireframe: true});
+                cube = new THREE.Mesh( geometry,material);
+                cube.position = new THREE.Vector3(-8,0,-4.5);
+                cube.rotation = new THREE.Vector3(0,30* ( Math.PI / 180 ),0)
+                scene.add(cube);
+            }
+            var cubea;
+        function initObject2() {
+                var geometry = new THREE.CubeGeometry(1.7,1.7,3.5);
+                var material =  new THREE.MeshBasicMaterial({color: 0xca9898, wireframe: true});
+                cubea = new THREE.Mesh( geometry,material);
+                cubea.position = new THREE.Vector3(-20,0,-4.5);
+                cubea.rotation = new THREE.Vector3(0,60* ( Math.PI / 180 ),0)
+                scene.add(cubea);
+            }
+            var cubeb;
+            function initObject3() {
+                var geometry = new THREE.CubeGeometry(1.7,1.7,3.5);
+                var material =  new THREE.MeshBasicMaterial({color: 0xffffff, wireframe: true});
+                cubeb = new THREE.Mesh( geometry,material);
+                cubeb.position = new THREE.Vector3(0,0,-20);
+                cubeb.rotation = new THREE.Vector3(0,0,0)
+                scene.add(cubeb);
+            }
+            function initObject4() {
+                var geometry = new THREE.CubeGeometry(1.7,1.7,3.5);
+                var material =  new THREE.MeshBasicMaterial({color: 0xca9898, wireframe: true});
+                var mesh = new THREE.Mesh( geometry,material);
+                mesh.position = new THREE.Vector3(0.5,0,-35);
+                mesh.rotation = new THREE.Vector3(0,0,0)
+                scene.add(mesh);
+            }
+            function initObject5() {
+                var geometry = new THREE.CubeGeometry(1.7,1.7,3.5);
+                var material =  new THREE.MeshBasicMaterial({color: 0xca9898, wireframe: true});
+                var mesh = new THREE.Mesh( geometry,material);
+                mesh.position = new THREE.Vector3(3.5,0,-55);
+                mesh.rotation = new THREE.Vector3(0,-60* ( Math.PI / 180 ),0)
+                scene.add(mesh);
+            }
+            function initObject6() {
+                var geometry = new THREE.CubeGeometry(1.7,1.7,3.5);
+                var material =  new THREE.MeshBasicMaterial({color: 0xca9898, wireframe: true});
+                var mesh = new THREE.Mesh( geometry,material);
+                mesh.position = new THREE.Vector3(10,0,-5.5);
+                mesh.rotation = new THREE.Vector3(0,-75* ( Math.PI / 180 ),0)
+                scene.add(mesh);
+            }
+            function initObject7() {
+                var geometry = new THREE.CubeGeometry(1.7,1.7,3.5);
+                var material =  new THREE.MeshBasicMaterial({color: 0xca9898, wireframe: true});
+                var mesh = new THREE.Mesh( geometry,material);
+                mesh.position = new THREE.Vector3(30,0,-20);
+                mesh.rotation = new THREE.Vector3(0,-40* ( Math.PI / 180 ),0)
+                scene.add(mesh);
+            }
+            function initObject8() {
+                var geometry = new THREE.CubeGeometry(1,1,2);
+                var material =  new THREE.MeshBasicMaterial({color: 0xca9898, wireframe: true});
+                var mesh = new THREE.Mesh( geometry,material);
+                mesh.position = new THREE.Vector3(0,0,8);
+                mesh.rotation = new THREE.Vector3(0,0,0)
+                scene.add(mesh);
+            }
+            function initObject9() {
+                var geometry = new THREE.CubeGeometry(1.7,1.7,3.5);
+                var material =  new THREE.MeshBasicMaterial({color: 0xca9898, wireframe: true});
+                var mesh = new THREE.Mesh( geometry,material);
+                mesh.position = new THREE.Vector3(-20,0,-30);
+                mesh.rotation = new THREE.Vector3(0,-50* ( Math.PI / 180 ),0)
+                scene.add(mesh);
+            }
+            var cube1;
+            function initObject11() {
+                var geometry = new THREE.CylinderGeometry(0.01,0.3,2,10);
+                var material = new THREE.MeshLambertMaterial({color: 0x487a7a});
+
+                cube1 = new THREE.Mesh( geometry,material);
+                cube1.position = new THREE.Vector3(-8,0,-4.5);
+                cube1.rotation = new THREE.Vector3(-90* ( Math.PI / 180 ),0,30* ( Math.PI / 180 ))
+                scene.add(cube1);
+            }
+            var cubea1;
+            function initObject21() {
+                var geometry = new THREE.CylinderGeometry(0.01,0.3,2,10);
+                var material = new THREE.MeshLambertMaterial({color: 0xFFAEB9});
+
+                cubea1 = new THREE.Mesh( geometry,material);
+                cubea1.position = new THREE.Vector3(-20,0,-4.5);
+                cubea1.rotation = new THREE.Vector3(-90* ( Math.PI / 180 ),0,60* ( Math.PI / 180 ))
+                scene.add(cubea1);
+            }
+            var cubeb1;
+            function initObject31() {
+                var geometry = new THREE.CylinderGeometry(0.01,0.3,2,10);
+                var material = new THREE.MeshLambertMaterial({color: 0xFFAEB9});
+
+                cubeb1 = new THREE.Mesh( geometry,material);
+                cubeb1.position = new THREE.Vector3(0,0,-20);
+                cubeb1.rotation = new THREE.Vector3(-90* ( Math.PI / 180 ),0,0)
+                scene.add(cubeb1);
+            }
+            function initObject41() {
+                var geometry = new THREE.CylinderGeometry(0.01,0.3,2,10);
+                var material = new THREE.MeshLambertMaterial({color: 0xFFAEB9});
+
+                var mesh = new THREE.Mesh( geometry,material);
+                mesh.position = new THREE.Vector3(0.5,0,-35);
+                mesh.rotation = new THREE.Vector3(-90* ( Math.PI / 180 ),0,0)
+                scene.add(mesh);
+            }
+            function initObject51() {
+                var geometry = new THREE.CylinderGeometry(0.01,0.3,2,10);
+                var material = new THREE.MeshLambertMaterial({color: 0xFFAEB9});
+
+                var mesh = new THREE.Mesh( geometry,material);
+                mesh.position = new THREE.Vector3(3.5,0,-55);
+                mesh.rotation = new THREE.Vector3(-90* ( Math.PI / 180 ),0,-60* ( Math.PI / 180 ))
+                scene.add(mesh);
+            }
+            function initObject61() {
+                var geometry = new THREE.CylinderGeometry(0.01,0.3,2,10);
+                var material = new THREE.MeshLambertMaterial({color: 0xFFAEB9});
+
+                var mesh = new THREE.Mesh( geometry,material);
+                mesh.position = new THREE.Vector3(10,0,-5.5);
+                mesh.rotation = new THREE.Vector3(-90* ( Math.PI / 180 ),0,-75* ( Math.PI / 180 ))
+                scene.add(mesh);
+            }
+            function initObject71() {
+                var geometry = new THREE.CylinderGeometry(0.01,0.3,2,10);
+                var material = new THREE.MeshLambertMaterial({color: 0xFFAEB9});
+
+                var mesh = new THREE.Mesh( geometry,material);
+                mesh.position = new THREE.Vector3(30,0,-20);
+                mesh.rotation = new THREE.Vector3(-90* ( Math.PI / 180 ),0,-40* ( Math.PI / 180 ))
+                scene.add(mesh);
+            }
+            function initObject81() {
+                var geometry = new THREE.CylinderGeometry(0.01,0.3,2,10);
+                var material = new THREE.MeshLambertMaterial({color: 0xFFAEB9});
+
+                var mesh = new THREE.Mesh( geometry,material);
+                mesh.position = new THREE.Vector3(0,0,8);
+                mesh.rotation = new THREE.Vector3(-90* ( Math.PI / 180 ),0,0)
+                scene.add(mesh);
+            }
+            function initObject91() {
+                var geometry = new THREE.CylinderGeometry(0.01,0.3,2,10);
+                var material = new THREE.MeshLambertMaterial({color: 0xFFAEB9});
+
+                var mesh = new THREE.Mesh( geometry,material);
+                mesh.position = new THREE.Vector3(-20,0,-30);
+                mesh.rotation = new THREE.Vector3(-90* ( Math.PI / 180 ),0,-50* ( Math.PI / 180 ))
+                scene.add(mesh);
+            }
+
+
+
+        // add the output of the renderer to the html element
+        document.getElementById("WebGL-output").appendChild(webGLRenderer.domElement);
+
+        // call the render function
+        var step = 0;
+
+        // the points group
+        var spGroup;
+        var spGroup1;
+        // the mesh
+        var tubeMesh;
+        var tubeMesh1;
+        var particles;
+        var particleSystem;
+        // setup the control gui
+        var controls = new function () {
+
+            this.numberOfPoints = 1;
+            this.segments = 60;
+            this.radius = 0.1;
+            this.radiusSegments = 8;
+            this.closed = false;
+            this.points = [];
+            // we need the first child, since it's a multimaterial
+
+            this.newPoints = function () {
+                var point1s = [];
+                for (var i = 0; i < controls.numberOfPoints; i++) {
+                    var randomX = 10;
+                    //var randomY = -15 + Math.round(Math.random() * 40);
+                    var randomY = 0;
+                    var randomZ = -490;
+
+                    points.push(new THREE.Vector3(randomX, randomY, randomZ));
+                }
+                controls.points = points;
+                controls.redraw();
+            };
+
+            this.redraw = function () {
+                scene.remove(spGroup);
+                scene.remove(tubeMesh);
+                generatePoints(controls.points, controls.segments, controls.radius, controls.radiusSegments, controls.closed);
+            };
+
+        };
+
+       var gui = new dat.GUI();
+        gui.add(controls, 'newPoints');
+       // gui.add(controls, 'numberOfPoints', 2, 100).step(1).onChange(controls.newPoints);
+        gui.add(controls, 'segments', 0, 200).step(1).onChange(controls.redraw);
+        gui.add(controls, 'radius', 0, 10).onChange(controls.redraw);
+        gui.add(controls, 'radiusSegments', 0, 100).step(1).onChange(controls.redraw);
+        gui.add(controls, 'closed').onChange(controls.redraw);
+        
+////////////////////////////////////////////////////////////////////////////////////////////////// 
+        var point1s=[];
+        var point2s=[];
+        var point3s=[];
+        var points=[];        
+        var point1x=1;
+        var point1y=1;
+        var point1z=10;
+        var point1xx=1;
+        var point1yy=1;
+        var point1zz=10;
+        var point2x=1;
+        var point2y=1;
+        var point2z=10;
+
+
+       // point1s.push(new THREE.Vector3(point1x,point1y,point1z));   
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+        controls.newPoints();
+        var  a=0;
+        var  array=[];
+        var  x=0;
+        var  array1=[];
+      function test(){
+        webGLRenderer.clear();
+        a=$("#name1").text();
+        array[x]=a;
+        if(x%60==0){
+            for(var j=0;j<60;j++){
+                //point1x=array[x]*5;
+                point1xx=array1[x]*Math.random();
+                point1yy=0;
+               // point1z=x-Math.round(Math.random() * 1000);
+                point1zz=-array[x]*100;
+                point1s.push(new THREE.Vector3(point1xx,point1yy,point1zz));
+                //point2s.push(new THREE.Vector3(0,point1y,point1z));
+                //point3s.push(new THREE.Vector3(-10,point1y,point1z));
+               // point4s.push(new THREE.Vector3(20,point1y,point1z));
+                
+                //generatePoint1s(point1s);
+                //generatePoint1s(point1s, 60, 0.5, 30, false)
+               // generatePoint1s(point2s, 60, 0.5, 10, false)
+               // generatePoint1s(point3s, 60, 0.5, 10, false)
+                //generatePoint1s(point4s, 60, 0.5, 10, false)
+                //scene.remove(spGroup1);
+                //scene.remove(tubeMesh1);
+                generatePoint1s(point1s, 60, 0.5, 30, false)
+            }
+            x++;
+        }
+        else{
+            x++; }
+                       //setInterval(test(),5000);
+        
+        requestAnimationFrame(test);
+        webGLRenderer.render(scene, camera);      
+      }
+      function road(){
+        var roadx=[ 4.0,3.6,3.3,3.0 ,2.6,  2.4 , 2.2 ,2.0,  2.0,1.8,1.7, 1.6,   1.5, 1.5,1.5, 1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
+        var roadz=[-49,-48.5,-48.0,-47.0,-45.0,-40.0,-35.0,-30.0,-25.0,-20.0,-15.0,-10.0,-5.0,0,0.5,0.9,1.1,2.2,3.3,4.4,5.5,6.6,7.7,8.8,9.9,10.0,10.1];
+        for(var m=0;m<27;m++){
+            point1s.push(new THREE.Vector3(roadx[m],0.2,roadz[m]));
+           
+        }
+        generatePoint1s(point1s, 60, 0.05, 30, false) 
+        
+      }
+      function road1(){
+        var road1x=[4.0,3.6,3.3,3.0 ,2.6,  2.4 , 2.2 ,2.0,  2.0,1.8,1.7, 1.6,   1.5, 1.5,1.5, 1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
+        var road1z=[-49.0,-48.5,-48.0,-47.0,-45.0,-40.0,-35.0,-30.0,-25,-20.0,-15.0,-10.0,-5.0,0,0.5,0.9,1.1,2.2,3.3,4.4,5.5,6.6,7.7,8.8,9.9,10.0,10.1];
+        for(var m1=0;m1<27;m1++){
+            
+            points.push(new THREE.Vector3(road1x[m1]-30,0.2,road1z[m1]));
+        }
+       
+        generatePoints(points, 60, 0.3, 30, false) 
+      }
+
+      function cloudd(){
+        webGLRenderer.clear();
+        a=$("#name").text();
+        array[x]=a;
+        if(x%60==0){
+            for(var j=0;j<60;j++){
+                //point1x=array[x]*5;
+                point1x=array[x];
+                point1y=0;
+               // point1z=x-Math.round(Math.random() * 1000);
+                point1z=150-Math.random()*50;
+                var pointxs=new THREE.Vector3(point1z,0,point1x*5);
+                var pointzs=new THREE.Vector3(point1z,15,point1x*5);
+               // colorLine(pointxs,pointzs);
+                    
+            }
+            colorLine(pointxs,pointzs);
+           
+            x++;
+        }
+        else{
+            x++; }
+                       //setInterval(test(),5000);
+        
+        requestAnimationFrame(cloudd);
+        webGLRenderer.render(scene, camera);      
+      }
+      function cloudd1(){
+        webGLRenderer.clear();
+        a=$("#name").text();
+        array[x]=a;
+        if(x%60==0){
+            for(var j=0;j<60;j++){
+                //point1x=array[x]*5;
+                point2x=-array[x];
+                point2y=0;
+               // point1z=x-Math.round(Math.random() * 1000);
+                point2z=-50-Math.random()*40;
+                var pointxs1=new THREE.Vector3(point2z,0,-200+point2x*5);
+                var pointzs1=new THREE.Vector3(point2z,15,-200+point2x*5);
+               // colorLine(pointxs,pointzs);
+                    
+            }
+            colorLine(pointxs1,pointzs1);
+           
+            x++;
+        }
+        else{
+            
+            x++; }
+                       //setInterval(test(),5000);
+        
+        requestAnimationFrame(cloudd1);
+        webGLRenderer.render(scene, camera);      
+      }
+      var rr = 0;
+      var ii = 0;
+      var jj = 0;
+      var markloop = 0;
+      var array1 = [];
+      var pointo = [];
+          pointo.push(new THREE.Vector3(0, 0, 0));
+      var meshline;
+      var x2=0;
+      var z2=0;
+      var cloudx=[-1,2,3,4,5,-6,7,8,-9];
+      var cloudz=[1,2,3,4,5,6,7,8,9];
+        addGrid();
+        //createParticles(cloudx,cloudz);
+       // createParticles1(cloudx,cloudz);
+       // createParticles2(cloudx,cloudz);
+        initObject1();
+        initObject2();
+        initObject3();
+        initObject4();
+        initObject5();
+        initObject6();
+        initObject7();
+        initObject8();
+        initObject9();
+        initObject11();
+        initObject21();
+        initObject31();
+        initObject41();
+        initObject51();
+        initObject61();
+        initObject71();
+        initObject81();
+        initObject91();
+        
+        render();
+       // createParticles();
+       // loop();
+ 
+      /*  function createParticles() {
+            
+            var geometry = new THREE.Geometry();
+            for (var i = 0; i < 500; i++) {  
+            var vertext = new THREE.Vector3(  
+                Math.random() * 200 ,  
+                Math.random() * 20 ,  
+                Math.random() * 200  
+            );  
+            geometry.vertices.push(vertext);  
+        } 
+        var color = 0xffffff;  
+        var size = 100;
+            var pointsMaterial = new THREE.PointsMaterial({
+                size: size,
+                transparent:true,
+                opacity: 0.8,
+                color:color
+               
+                });
+               // pointsMaterial.color.setRGB(color[0],color[1], color[2]); 
+                particles = new THREE.Points(geometry, pointsMaterial);
+                //particles.rotation.set(Math.random() * 6, Math.random() * 6, Math.random() * 6);
+                scene.add(particles);
+            }*/
+////////////////////////////////////////////////粒子系统/////////////////////////////////////////////////////
+var particleSystem;
+function createParticles(pX,pZ){
+    
+var particleCount = 1800
+particles = new THREE.Geometry(),
+ pMaterial = new THREE.ParticleBasicMaterial({
+color: 0xff3ffe,
+size: 0.5
+});
+//ffb6c1/fe8efe/ff3ffe
+// 依次创建单个粒子0xc59d9d
+for(var p = 0; p < pX.length; p++) {
+// 粒子范围在-250到250之间
+var pY = 1,
+//pY = Math.random() * 500 - 250,
+//pZ = Math.random() * 500 - 250,
+particle = new THREE.Vertex(
+new THREE.Vector3(pX[p], pY, pZ[p])
+);
+// 将粒子加入粒子geometry
+particles.vertices.push(particle);
+}
+// 创建粒子系统
+  particleSystem =
+new THREE.ParticleSystem(
+particles,
+pMaterial);
+// 将粒子系统加入场景
+scene.add(particleSystem);
+//setInterval(scene.remove(particleSystem), 1000);
+
+}
+var particleSystem1;
+function createParticles1(pX,pZ){
+    
+var particleCount = 1800
+particles = new THREE.Geometry(),
+ pMaterial = new THREE.ParticleBasicMaterial({
+color: 0x6954eb,
+size: 0.5
+});
+//ffb6c1/fe8efe/ff3ffe
+// 依次创建单个粒子0xc59d9d
+for(var p = 0; p < pX.length; p++) {
+// 粒子范围在-250到250之间
+var pY = 1,
+//pY = Math.random() * 500 - 250,
+//pZ = Math.random() * 500 - 250,
+particle = new THREE.Vertex(
+new THREE.Vector3(pX[p], pY, pZ[p])
+);
+// 将粒子加入粒子geometry
+particles.vertices.push(particle);
+}
+// 创建粒子系统
+  particleSystem1 =
+new THREE.ParticleSystem(
+particles,
+pMaterial);
+// 将粒子系统加入场景
+scene.add(particleSystem1);
+//setInterval(scene.remove(particleSystem), 1000);
+
+}
+var particleSystem2;
+function createParticles2(pX,pZ){
+    
+var particleCount = 1800
+particles = new THREE.Geometry(),
+ pMaterial = new THREE.ParticleBasicMaterial({
+color: 0xffffff,
+size: 0.5
+});
+//ffb6c1/fe8efe/ff3ffe
+// 依次创建单个粒子0xc59d9d
+for(var p = 0; p < pX.length; p++) {
+// 粒子范围在-250到250之间
+var pY = 1,
+//pY = Math.random() * 500 - 250,
+//pZ = Math.random() * 500 - 250,
+particle = new THREE.Vertex(
+new THREE.Vector3(pX[p], pY, pZ[p])
+);
+// 将粒子加入粒子geometry
+particles.vertices.push(particle);
+}
+// 创建粒子系统
+  particleSystem2 =
+new THREE.ParticleSystem(
+particles,
+pMaterial);
+// 将粒子系统加入场景
+scene.add(particleSystem2);
+//setInterval(scene.remove(particleSystem), 1000);
+
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+            function colorLine(p1,p2){
+                var geometry=new THREE.Geometry();
+                var material=new THREE.LineBasicMaterial({VertexColors:false,color:0xe5d4d4});
+                geometry.vertices.push(p1);
+                geometry.vertices.push(p2);
+                var line=new THREE.Line(geometry, material);
+                scene.add(line);
+            }
+            function roadLine(p1,p2){
+                var geometry=new THREE.Geometry();
+                var material=new THREE.LineBasicMaterial({VertexColors:false,color:0xe5d4d4});
+                geometry.vertices.push(p1);
+                geometry.vertices.push(p2);
+                var line=new THREE.Line(geometry, material);
+                scene.add(line);
+            }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+        function generatePoints(points, segments, radius, radiusSegments, closed) {
+            // add n random spheres
+
+
+            spGroup = new THREE.Object3D();
+            
+            var material = new THREE.MeshBasicMaterial({color: 0x599898, transparent: false});
+            
+            points.forEach(function (point) {
+
+                var spGeom = new THREE.SphereGeometry(1);//size of pointsC15CE6//D3A1E6
+                var spMesh = new THREE.Mesh(spGeom, material);
+                spMesh.position.copy(point);
+                spGroup.add(spMesh);
+            });
+            // add the points as a group to the scene
+            scene.add(spGroup);
+
+           
+
+
+            // use the same points to create a convexgeometry
+           var tubeGeometry = new THREE.TubeGeometry(new THREE.SplineCurve3(points), segments, radius, radiusSegments, closed);
+            tubeMesh = createMesh(tubeGeometry);
+            scene.add(tubeMesh);
+
+        }
+        function generatePoint1s(points, segments, radius, radiusSegments, closed){
+            spGroup1 = new THREE.Object3D();
+            var material1 = new THREE.MeshBasicMaterial({color: 0x599898, transparent: false});
+            point1s.forEach(function(point1){
+                var spGeom1=new THREE.SphereGeometry(1);
+                var spMesh1=new THREE.Mesh(spGeom1,material1);
+                spMesh1.position.copy(point1);
+                spGroup1.add(spMesh1);
+            });
+            scene.add(spGroup1);
+
+            var tubeGeometry1 = new THREE.TubeGeometry(new THREE.SplineCurve3(point1s), segments, radius, radiusSegments, closed);
+            tubeMesh1 = createMesh(tubeGeometry1);
+            scene.add(tubeMesh1);
+         }
+        
+
+///////////////////////////////////////////tube's mesh//////////////////////////////////////////////////////////////
+        function createMesh(geom) {
+
+            // assign two materials
+            //var meshMaterial = new THREE.MeshNormalMaterial();
+            var meshMaterial = new THREE.MeshBasicMaterial({color: 0x000080, transparent: true, opacity: 0.3});//tube mesh
+
+            var wireFrameMat = new THREE.MeshBasicMaterial();
+            wireFrameMat.wireframe = true;
+
+            // create a multimaterial
+            var mesh = THREE.SceneUtils.createMultiMaterialObject(geom, [meshMaterial, wireFrameMat]);
+
+            return mesh;
+        }
+/////////////////////////////////////////轨迹////////////////////////////////////////
+
+function createLine(){
+  
+  if(meshline!=null) scene.remove(meshline);
+ var shape = new THREE.Shape();
+ 
+ shape.moveTo(0,0);//起点 x,y
+ shape.lineTo(0,1);//第2点
+ shape.lineTo(5,1);//第3点
+ shape.lineTo(5,0);//第4点
+ shape.lineTo(0,0);//第5点
+ 
+  
+  var curve = new THREE.CatmullRomCurve3(pointo);
+  
+  var geometry = new THREE.ExtrudeGeometry(
+    shape,
+    
+    {
+        bevelEnabled:true,//无倒角
+        extrudePath:curve,//选择扫描轨迹
+        steps:50//扫描方向细分数
+    }
+);
+var material=new THREE.MeshPhongMaterial({color:0xD3A1E6});//车道线颜色
+meshline=new THREE.Mesh(geometry,material);//扫描网格模型对象
+meshline.position.set(-x2-24,0,-z2);//设置为-目标点位置，即-x2,-z2
+}
+
+function loop() {
+    webGLRenderer.clear(); 
+    ii=$("#name").text();
+    array1[jj]=ii;
+    if(markloop==0&&ii!=0){
+        markloop = 1;
+		
+        x2=array1[jj];
+        z2=0;          
+		pointo.push(new THREE.Vector3(x2, 0, z2));
+        jj++;
+    }
+      createLine();
+    
+	  scene.add(meshline);
+     
+    if(markloop==1){
+        z2=0;
+        x2=array1[jj];
+        
+        markloop=0;
+        }
+    
+    webGLRenderer.render(scene, camera);  
+    window.requestAnimationFrame(loop); 
+  }
+////////////////////////////////////////car///////////////////////////////////////////
+var mlib = {
+
+"Orange": 	new THREE.MeshLambertMaterial( { color: 0xff6600, ambient: 0xff2200, envMap: textureCube, combine: THREE.MixOperation, reflectivity: 0.3 } ),
+"Blue": 	new THREE.MeshLambertMaterial( { color: 0x001133, ambient: 0x001133, envMap: textureCube, combine: THREE.MixOperation, reflectivity: 0.3 } ),
+"Red": 		new THREE.MeshLambertMaterial( { color: 0x660000, ambient: 0x330000, envMap: textureCube, combine: THREE.MixOperation, reflectivity: 0.25 } ),
+"Black": 	new THREE.MeshLambertMaterial( { color: 0x000000, ambient: 0x000000, envMap: textureCube, combine: THREE.MixOperation, reflectivity: 0.15 } ),
+"White":	new THREE.MeshLambertMaterial( { color: 0xffffff, ambient: 0x666666, envMap: textureCube, combine: THREE.MixOperation, reflectivity: 0.25 } ),
+
+"Carmine": 	new THREE.MeshPhongMaterial( { color: 0x770000, specular:0xffaaaa, envMap: textureCube, combine: THREE.MultiplyOperation } ),
+"Gold": 	new THREE.MeshPhongMaterial( { color: 0xaa9944, specular:0xbbaa99, shininess:50, envMap: textureCube, combine: THREE.MultiplyOperation } ),
+"Bronze":	new THREE.MeshPhongMaterial( { color: 0x150505, specular:0xee6600, shininess:10, envMap: textureCube, combine: THREE.MixOperation, reflectivity: 0.25 } ),
+"Chrome": 	new THREE.MeshPhongMaterial( { color: 0xffffff, specular:0xffffff, envMap: textureCube, combine: THREE.Multiply } ),
+
+"Orange metal": new THREE.MeshLambertMaterial( { color: 0xff6600, ambient: 0xff2200, envMap: textureCube, combine: THREE.MultiplyOperation } ),
+"Blue metal": 	new THREE.MeshLambertMaterial( { color: 0x001133, ambient: 0x002266, envMap: textureCube, combine: THREE.MultiplyOperation } ),
+"Red metal": 	new THREE.MeshLambertMaterial( { color: 0x770000, envMap: textureCube, combine: THREE.MultiplyOperation } ),
+"Green metal": 	new THREE.MeshLambertMaterial( { color: 0x007711, envMap: textureCube, combine: THREE.MultiplyOperation } ),
+"Black metal":	new THREE.MeshLambertMaterial( { color: 0x222222, envMap: textureCube, combine: THREE.MultiplyOperation } ),
+
+"Pure chrome": 	new THREE.MeshLambertMaterial( { color: 0xffffff, envMap: textureCube } ),
+"Dark chrome":	new THREE.MeshLambertMaterial( { color: 0x444444, envMap: textureCube } ),
+"Darker chrome":new THREE.MeshLambertMaterial( { color: 0x222222, envMap: textureCube } ),
+
+"Black glass": 	new THREE.MeshLambertMaterial( { color: 0x101016, envMap: textureCube, opacity: 0.975, transparent: true } ),
+"Dark glass":	new THREE.MeshLambertMaterial( { color: 0x101046, envMap: textureCube, opacity: 0.25, transparent: true } ),
+"Blue glass":	new THREE.MeshLambertMaterial( { color: 0x668899, envMap: textureCube, opacity: 0.75, transparent: true } ),
+"Light glass":	new THREE.MeshBasicMaterial( { color: 0x223344, envMap: textureCube, opacity: 0.25, transparent: true, combine: THREE.MixOperation, reflectivity: 0.25 } ),
+
+"Red glass":	new THREE.MeshLambertMaterial( { color: 0xff0000, opacity: 0.75, transparent: true } ),
+"Yellow glass":	new THREE.MeshLambertMaterial( { color: 0xffffaa, opacity: 0.75, transparent: true } ),
+"Orange glass":	new THREE.MeshLambertMaterial( { color: 0x995500, opacity: 0.75, transparent: true } ),
+
+"Orange glass 50":	new THREE.MeshLambertMaterial( { color: 0xffbb00, opacity: 0.5, transparent: true } ),
+"Red glass 50": 	new THREE.MeshLambertMaterial( { color: 0xff0000, opacity: 0.5, transparent: true } ),
+
+"Fullblack rough":	new THREE.MeshLambertMaterial( { color: 0x000000 } ),
+"Black rough":		new THREE.MeshLambertMaterial( { color: 0x050505 } ),
+"Darkgray rough":	new THREE.MeshLambertMaterial( { color: 0x090909 } ),
+"Red rough":		new THREE.MeshLambertMaterial( { color: 0x330500 } ),
+
+"Darkgray shiny":	new THREE.MeshPhongMaterial( { color: 0x000000, specular: 0x050505 } ),
+"Gray shiny":		new THREE.MeshPhongMaterial( { color: 0x050505, shininess: 20 } )
+
+}
+
+
+// Gallardo materials
+
+
+
+// Veyron materials
+
+CARS[ "veyron" ].materials = {
+
+    body: [
+
+        [ "Orange metal", 	mlib[ "Orange metal" ] ],
+        [ "Blue metal", 	mlib[ "Blue metal" ] ],
+        [ "Red metal", 		mlib[ "Red metal" ] ],
+        [ "Green metal",	mlib[ "Green metal" ] ],
+        [ "Black metal", 	mlib[ "Black metal" ] ],
+
+        [ "Gold", 		mlib[ "Gold" ] ],
+        [ "Bronze", 	mlib[ "Bronze" ] ],
+        [ "Chrome", 	mlib[ "Chrome" ] ]
+
+    ],
+
+}
+
+m = CARS[ "veyron" ].materials;
+mi = CARS[ "veyron" ].init_material;
+
+CARS[ "veyron" ].mmap = {
+
+    0: mlib[ "Black rough" ],		// tires + inside
+    1: mlib[ "Pure chrome" ],		// wheels + extras chrome
+    2: m.body[ mi ][ 1 ], 			// back / top / front torso
+    3: mlib[ "Dark glass" ],		// glass
+    4: mlib[ "Pure chrome" ],		// sides torso
+    5: mlib[ "Pure chrome" ],		// engine
+    6: mlib[ "Red glass 50" ],		// backlights
+    7: mlib[ "Orange glass 50" ]	// backsignals
+
+}
+
+// F50 materials
+
+
+loader.load( CARS[ "veyron" ].url, function( geometry ) { createScene( geometry, "veyron" ) } );
+/////////////////////////////网格///////////////////////////////////
+        var grid;
+        function addGrid(){
+        drawGrid();
+
+        //画一个坐标上去
+        var axes = new THREE.AxisHelper(500);
+        //axes.position.y = 20;
+        scene.add(axes);
+        }
+  
+    //构造实验环境——作为独立功能应用，将网格封装成函数
+        function drawGrid(){
+        var size = 500, step = 1;
+        var geometry = new THREE.Geometry();
+        var material = new THREE.LineBasicMaterial({vertexColors:THREE.VertexColors});
+        var color1 = new THREE.Color(0x2F4F4F),color2 = new THREE.Color(0x00008B);//网格颜色
+
+        for(var i = -size;i<=size;i+=step)
+        {
+			//x-z平面
+			//平行z轴的线
+            geometry.vertices.push(new THREE.Vector3(i,0,-size));
+            geometry.vertices.push(new THREE.Vector3(i,0,size));
+
+            //平行x轴的线
+            geometry.vertices.push(new THREE.Vector3(-size,0,i));
+            geometry.vertices.push(new THREE.Vector3(size,0,i));
+			
+
+            //把每个顶点的颜色放进去，用到颜色数组
+            geometry.colors.push(color1,color1,color1,color1);
+
+        }
+        grid = new THREE.Line(geometry,material,THREE.LinePieces);//LinePieces 两个点形成一条直线，故vertices必须为单数
+        scene.add(grid);
+
+    }
+    ////////////////////////////////////////网格////////////////////////////////////////////////////////////////////
+        var x1 = 0;
+        var x2 = 0;
+        var x3 = 0;
+        var x4 = 0;
+    
+        function render() {
+            //test();  
+            webGLRenderer.clear();          
+            stats.update();
+           
+            //test1();
+            //spGroup.rotation.y = step;
+            //tubeMesh.rotation.y = step += 0.01;
+            //test();
+            // render using requestAnimationFrame
+            var cloud1x = [];
+            var cloud1z = [];
+            var cloud1s = [];
+            var cloud2s = [];
+            var cloud1m = $("#demos").text();
+            var cloud1n = $("#demos1").text();
+            var indexcloud=$("#demos2").text();
+            cloud1s = cloud1m.split('[]');
+            cloud2s = cloud1n.split('[]');
+            cloud1z = cloud1s[0].split(',');
+            cloud1x = cloud2s[0].split(',');
+            
+           // createParticles(cloud1x,cloud1z); 
+           if(indexcloud==1&&x1==1){
+                scene.remove(particleSystem);
+                x1 = 2;
+            }
+            if(indexcloud==1&&x1==3){
+                scene.remove(particleSystem);
+                x1 = 0;
+            }
+            if(indexcloud==2&&x2==1){
+                scene.remove(particleSystem1);
+                x2 = 2;
+            }
+            if(indexcloud==2&&x2==3){
+                scene.remove(particleSystem1);
+                x2 = 0;
+            }
+            if(indexcloud==3&&x3==1){
+                scene.remove(particleSystem2);
+                x3 = 2;
+            }
+            if(indexcloud==3&&x3==3){
+                scene.remove(particleSystem2);
+                x3 = 0;
+            }
+            if(indexcloud==1&&x1==0){
+                
+                createParticles(cloud1x,cloud1z); 
+           /* cube.position.x=0;
+            cube1.position.x=0;
+            cube.position.y=0;
+            cube1.position.y=0;
+            cube.position.z=0;
+            cube1.position.z=0;*/
+                x1=1;
+            }
+            if(indexcloud==1&&x1==2){
+                
+                createParticles(cloud1x,cloud1z); 
+           /* cube.position.x=0;
+            cube1.position.x=0;
+            cube.position.y=0;
+            cube1.position.y=0;
+            cube.position.z=0;
+            cube1.position.z=0;*/
+                x1=3;
+            }
+            if(indexcloud==2&&x2==0){
+                
+                createParticles1(cloud1x,cloud1z);
+           /* cubea.position.x=0;
+            cubea1.position.x=0;
+            cubea.position.y=0;
+            cubea1.position.y=0;
+            cubea.position.z=0;
+            cubea1.position.z=0;*/
+
+                x2=1;
+            }
+            if(indexcloud==2&&x2==2){
+                
+                createParticles1(cloud1x,cloud1z);
+           /* cubea.position.x=0;
+            cubea1.position.x=0;
+            cubea.position.y=0;
+            cubea1.position.y=0;
+            cubea.position.z=0;
+            cubea1.position.z=0;*/
+
+                x2=3;
+            }
+            if(indexcloud==3&&x3==0){
+            
+            createParticles2(cloud1x,cloud1z);
+           /* cubeb.position.x=0;
+            cubeb1.position.x=0;
+            cubeb.position.y=0;
+            cubeb1.position.y=0;
+            cubeb.position.z=0;
+            cubeb1.position.z=0;*/
+            x3=1;
+            }
+            if(indexcloud==3&&x3==2){
+            
+            createParticles2(cloud1x,cloud1z);
+           /* cubeb.position.x=0;
+            cubeb1.position.x=0;
+            cubeb.position.y=0;
+            cubeb1.position.y=0;
+            cubeb.position.z=0;
+            cubeb1.position.z=0;*/
+            x3=3;
+            }
+           /* cube.position.x=Math.random()*5;
+            cube1.position.x=cube.position.x;
+            cube.position.y=0;
+            cube1.position.y=0;
+            cube.position.z=Math.random()*5;
+            cube1.position.z=cube.position.z;
+            
+            var lanex=new THREE.Vector3(Math.random()*5,0,Math.random()*5);
+            var lanez=new THREE.Vector3(Math.random()*5,0,Math.random()*5);
+            roadLine(lanex,lanez);*/
+          /*  if(x1==3){
+                scene.remove(particleSystem);
+                
+            }
+            if(x2==4){
+                scene.remove(particleSystem1);
+               
+            }
+            if(x3==5){
+                scene.remove(particleSystem2);
+                
+            }*/
+           /* if(x4%3==0){
+                
+                createParticles(cloud1x,cloud1z); 
+                x1=3;
+            }
+            if(x4%3==1){
+                
+                createParticles1(cloud1x,cloud1z);
+                x2=4;
+            }
+            if(x4%3==2){
+            
+            createParticles2(cloud1x,cloud1z);
+            x3=5;
+            }*/
+            
+            
+          //  x4++;
+            requestAnimationFrame(render);
+            webGLRenderer.render(scene, camera);
+           // scene.remove(particleSystem);
+        }
+       
+
+       function initStats() {
+
+            var stats = new Stats();
+            stats.setMode(0); // 0: fps, 1: ms
+
+            // Align top-left
+            stats.domElement.style.position = 'absolute';
+            stats.domElement.style.left = '0px';
+            stats.domElement.style.top = '0px';
+
+            document.getElementById("Stats-output").appendChild(stats.domElement);
+
+            return stats;
+        }
+        
+    }
+
+function createScene( geometry, car ) {
+
+//loader.statusDomElement.innerHTML = "Creating model ...";
+
+var m = new THREE.MeshFaceMaterial(),
+    s = CARS[ car ].scale * 1,
+    r = CARS[ car ].init_rotation,
+    materials = CARS[ car ].materials,
+    mi = CARS[ car ].init_material,
+    bm = CARS[ car ].body_materials;
+
+for ( var i in CARS[ car ].mmap ) {
+
+    m.materials[ i ] = CARS[ car ].mmap[ i ];
+
+}
+
+var mesh = new THREE.Mesh( geometry, m );
+
+mesh.rotation.x = r[ 0 ];
+mesh.rotation.y = r[ 1 ];
+mesh.rotation.z = r[ 2 ];
+
+mesh.scale.x = mesh.scale.y = mesh.scale.z = s;
+
+scene.add( mesh );
+
+CARS[ car ].object = mesh;
+
+//CARS[ car ].buttons = createButtons( materials.body, car );
+//attachButtonMaterials( materials.body, m, bm, car );
+
+//switchCar( car );
+
+//loader.statusDomElement.style.display = "none";
+//loader.statusDomElement.innerHTML = "Loading model ...";
+
+
+}
+   // init();
+ 
+    window.onload = init;
+</script>
+</head>
+<body bgcolor="#222">
+        <script src="./steer.js"></script>
+        <button id="b01" type="button">click</button>
+        <button id="b02" type="button">click</button>
+        <button id="b03" type="button">click</button>
+        <button id="b04" type="button">click</button>
+        <button id="b05" type="button">click</button>
+        <!--<div class="demo2" style="background-color:#222; color:#FFF;">
+            <div id="container" style="min-width:200px;height:200px"></div>
+            <script src="https://img.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+            <script src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+            <script src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+            <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+            <script>
+                    Highcharts.setOptions({
+                    global: {
+                        useUTC: false
+                    }
+                });
+                
+                function activeLastPointToolip(chart) {
+                    var points = chart.series[0].points;
+                    chart.tooltip.refresh(points[points.length -1]);
+                }
+                
+                $('#container').highcharts({
+                    chart: {
+                        backgroundColor: '#222',
+                        type: 'line',
+                        width:350,
+                        height:150,
+                        animation: Highcharts.svg, // don't animate in old IE
+                        marginRight: 10,
+                        events: {
+                            load: function () {
+                                // set up the updating of the chart each second
+                                var series = this.series[0],
+                                    chart = this;
+                                setInterval(function () {
+                                    
+                                   
+                                    var x = (new Date()).getTime(); // current time
+                                    var y = $("#clock1").val() ;
+                                    series.addPoint([x, parseFloat(y)], true, true);
+                                    
+                                    activeLastPointToolip(chart)
+                                }, 1000);
+                            }
+                        }
+                    },
+                    colors: ['#487a7a'],
+                    title: {
+                        text: 'speed'
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        tickPixelInterval: 150
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'value'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            return '<b>' + this.series.name + '</b><br/>' +
+                                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                                Highcharts.numberFormat(this.y, 2);
+                        }
+                    },
+                    legend: {
+                        itemStyle : {
+                        'fontSize' : '0.1px'
+                    }
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    series: [{
+                        name: 'speed',
+                        itemStyle : {
+                        'fontSize' : '0.1px'
+                    },
+                        data: (function () {
+                            // generate an array of random data
+                            var data = [],
+                                time = (new Date()).getTime(),
+                                i;
+                            for (i = -19; i <= 0; i += 1) {
+                                data.push({
+                                    x: time + i * 1000,
+                                    y: 1
+                                });
+                            }
+                            return data;
+                        }())
+                    }]
+                }, function(c) {
+                    activeLastPointToolip(c)
+                });
+                </script>  
+        </div>-->
+
+        <div class="demo" style="background-color:#222; color:#FFF;">
+           <!-- <input class="knob second" data-min="0" data-max="100" data-width="150" data-displayPrevious=false data-bgColor="#333" data-fgColor="#ffec03" data-skin="tron" data-cursor=false data-thickness=".2" >-->
+            <input class="knob minute" data-min="-360" data-max="360" data-width="150" data-displayPrevious=false data-bgColor="#333" data-fgColor="#c59d9d" data-skin="tron" data-cursor=true data-thickness=".1" >
+            
+        </div>
+        <div class="demo1" style="background-color:#222; color:#FFF;">
+            <input class="knob second" data-min="0" data-max="20" data-width="150" data-displayPrevious=false data-bgColor="#333" data-fgColor="#74b7b7" data-skin="tron" data-cursor=false data-thickness=".1" >   
+        </div>
+                <div class="demo2" style="background-color:#222; color:#FFF;">
+            <div id="container" style="min-width:200px;height:200px"></div>
+           <!-- <script src="https://img.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>-->
+            <script src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+            <script src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+            <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+            <script>
+                    Highcharts.setOptions({
+                    global: {
+                        useUTC: false
+                    }
+                });
+                
+                function activeLastPointToolip(chart) {
+                    var points = chart.series[0].points;
+                    chart.tooltip.refresh(points[points.length -1]);
+                }
+                
+                $('#container').highcharts({
+                    chart: {
+                        backgroundColor: '#222',
+                        type: 'line',
+                        width:500,
+                        height:150,
+                        animation: Highcharts.svg, // don't animate in old IE
+                        marginRight: 10,
+                        events: {
+                            load: function () {
+                                // set up the updating of the chart each second
+                                var series = this.series[0],
+                                    chart = this;
+                                setInterval(function () {
+                                    
+                                   
+                                    var x = (new Date()).getTime(); // current time
+                                    var y = $("#clock1").val() ;
+                                    series.addPoint([x, parseFloat(y)], true, true);
+                                    
+                                    activeLastPointToolip(chart)
+                                }, 1000);
+                            }
+                        }
+                    },
+                    colors: ['#74b7b7'],
+                    title: {
+                        text: 'speed'
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        tickPixelInterval: 150
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'value'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            return '<b>' + this.series.name + '</b><br/>' +
+                                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                                Highcharts.numberFormat(this.y, 2);
+                        }
+                    },
+                    legend: {
+                        itemStyle : {
+                        'fontSize' : '0.1px'
+                    }
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    series: [{
+                        name: 'speed',
+                        itemStyle : {
+                        'fontSize' : '0.1px'
+                    },
+                        data: (function () {
+                            // generate an array of random data
+                            var data = [],
+                                time = (new Date()).getTime(),
+                                i;
+                            for (i = -19; i <= 0; i += 1) {
+                                data.push({
+                                    x: time + i * 1000,
+                                    y: 1
+                                });
+                            }
+                            return data;
+                        }())
+                    }]
+                }, function(c) {
+                    activeLastPointToolip(c)
+                });
+                </script>  
+        </div>
+        <div style="clear:both"></div>
+        
+        <script src="http://www.jq22.com/js/jq.js"></script>        
+<!-- Javascript code that runs our Three.js examples -->
+<div id="Stats-output">
+        
+</div>
+
+
+<!--<button id="b01" type="button">click</button>-->
+<!--<button id="b03" type="button">click</button>-->
+
+<div id=name1>1</div>
+<div id=name2>1</div>
+<input type="text" id="clock1" size="35"style="display:none"  />
+<input type="text" id="clock2" size="35" style="display:none" />
+<!--<button id="btn1">test</button>-->
+<div id=demos></div>
+<div id=demos1></div>
+<div id=demos2></div>
+<div id=name>10</div> 
+
+<!--<button onclick="int=window.clearInterval(int)">
+    Stop interval</button>-->
+ <div id="container"></div>     
+<!-- Div which will hold the Output -->
+<div id="WebGL-output">
+     
+</div>
+
+</body>
+</html>
