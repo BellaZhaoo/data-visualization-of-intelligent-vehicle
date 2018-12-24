@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.autointerface";
+option java_outer_classname = "AutoInterfaceProto";
+option objc_class_prefix = "AIF";
+
+package autointerface;
+
+service AutoInterface {
+ 
+  rpc SayHello (stream HelloRequest) returns (stream HelloRequest) {}
+	rpc SayHellog(stream aPacketReckon) returns (stream aPacketReckon) {}
+	rpc SayHelloh(stream aPacketCanMsg) returns (stream aPacketCanMsg) {}
+	
+	rpc SayHelloq(stream aPacketIbeoVector) returns (stream aPacketIbeoVector) {}
+	rpc SayHelloOtherVehicleData(stream aOtherVehicleData) returns (stream aOtherVehicleData) {}
+	rpc SayHelloPacketOtherVehicleDatalist(stream aPacketOtherVehicleDatalist) returns (stream aPacketOtherVehicleDatalist) {}
+
+}
+message HelloRequest {
+  //string name = 1;
+  int32 lengthOfPlan=1;
+  float lanelx=2;
+  float lanely=3;
+  float StopLaneDis=4;
+  float pathPoints=5;
+  float pathPointx=6;
+
+}
+
+message aPacketReckon {
+  float dX=1;
+	float dY=2;
+	float dThe=3;
+}
+
+message aPacketCanMsg {
+  float steer=1;
+	float speed=2;
+	int32 gearPos=3;
+  int32 EPB_status=4;
+  int32 EHB_Pressure=5;
+	float sonicx=6;
+	float sonicy=7;
+	int32 rawdis=8;
+	aPacketReckon reckon=9;
+}
+
+
+message aPacketIbeoVector {
+  int32 index=1;
+	int32 lengthOfObject=2;
+	int32 lengthOfContour=3;
+	float ibx=4;
+	float iby=5;
+	float ibw=6;
+	float ibl=7;
+	float ibvx=8;
+	float ibvy=9;
+	float ibvabx=10;
+	float ibvaby=11;
+	int32 ibcontournum=12;
+	repeated float ibcontourx=13;
+	repeated float ibcontoury=14;
+}
+
+message aOtherVehicleData{
+	int32 stationID=1;
+  float accuracy=2;
+  double lat=3;
+  double lon=4;
+  double heading=5;
+  float  speed=6;
+  double referenceTime=7;
+  double longitudinalAcceleration=8;
+  double lateralAcceleration=9;
+  int32 platoonID=10;
+  int32 posInPlatoon=11;
+}
+
+message aPacketOtherVehicleDatalist{
+	int32 numOfVehicles=1;
+   aOtherVehicleData vehicle=2;
+}
+
+/*
+message aPacketVLP16RawVector {
+  int32  lengthOfPoints=1;
+	float    x=2;
+	float    y=3;
+	float    z=4;
+	string  id=5;
+	string  intensity=6;
+}
+int**-->int32 except int64*
+byte-->string
+*/
+
